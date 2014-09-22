@@ -6,18 +6,13 @@ require "skidata/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "skidata"
-  s.version     = Skidata::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Skidata."
-  s.description = "TODO: Description of Skidata."
+  s.version     = SkidataApi::VERSION
+  s.authors     = ["Craig Heneveld"]
+  s.email       = ["craig.heneveld@adeptmobi.com"]
+  s.homepage    = "https://github.com/cheneveld/skidata-api"
+  s.summary     = %q{Ruby wrapper for the Skidata API}
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
-
-  s.add_dependency "rails", "~> 4.1.6"
-
-  s.add_development_dependency "sqlite3"
 end
