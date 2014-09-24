@@ -4,11 +4,9 @@ A Ruby wrapper for the Skidata API
 
 Installation
 ------------
-```gem install instagram```
+in your rails project
 
-or in your rails project
-
-```gem 'skidata'```
+```gem "skidata", :git => "git@github.com:cheneveld/skidata-api.git"```
 
 then bundle.
 
