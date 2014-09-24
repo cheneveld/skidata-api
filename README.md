@@ -6,7 +6,7 @@ Installation
 ------------
 in your rails project
 
-```gem "skidata", :git => "git@github.com:cheneveld/skidata-api.git"```
+```gem "skidata", :git => "https://github.com/cheneveld/skidata-api"```
 
 then bundle.
 
