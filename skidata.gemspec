@@ -5,8 +5,11 @@ require "skidata/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
+  s.add_development_dependency('rake', '~> 0.9.2.2')
+  s.add_runtime_dependency('httparty', ['>= 0.13.1', '< 0.14'])
+
   s.name        = "skidata"
-  s.version     = SkidataApi::VERSION
+  s.version     = Skidata::VERSION.dup
   s.authors     = ["Craig Heneveld"]
   s.email       = ["craig.heneveld@adeptmobi.com"]
   s.homepage    = "https://github.com/cheneveld/skidata-api"
