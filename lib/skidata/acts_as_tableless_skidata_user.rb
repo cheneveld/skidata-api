@@ -18,11 +18,17 @@ module Skidata
         if api_user_response.code.to_i == 200
           user_hash = ActiveSupport::JSON.decode api_user_response.body
 
-          record = new(:id => user_hash['UserID'],
-                       :email => user_hash['EmailAddress'],
-                       :name => user_hash['DisplayName'],
-                       :leaderboard_overall_position => user_hash['LeaderboardPosition']['OverallPosition'],
-                       :season_points_earned => user_hash['CurrentPoints']['SeasonPointsEarned'])
+          id = user_hash['UserID']
+          email = user_hash['EmailAddress']          
+          name = user_hash['DisplayName']
+          overall_position = user_hash['LeaderboardPosition']['OverallPosition'] rescue "-"
+          season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
+          
+          record = new(:id => id,
+                       :email => email,
+                       :name => name,
+                       :leaderboard_overall_position => overall_position,
+                       :season_points_earned => season_points)
 
           record.set_points validation_cookie
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    skidata (0.0.1)
+    skidata (0.0.2)
       httparty (>= 0.13.1, < 0.14)
 
 GEM
