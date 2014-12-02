@@ -46,19 +46,24 @@ module Skidata
         return unless self.errors.empty?
 
         client = Skidata.client
-        login_type = client.get_login_type self.email
-        validation_response = client.validate self.email, login_type, self.password
 
-        validation_response = ActiveSupport::JSON.decode validation_response.body
+        begin 
+          login_type = client.get_login_type self.email
+          validation_response = client.validate self.email, login_type, self.password
 
-        if validation_response.has_key?("userIsVerified") && validation_response['userIsVerified']
-          self.id = validation_response['userId']
-        else
-          if(validation_response.has_key?("Message"))
-            errors.add(:email, validation_response['Message'])
+          validation_response = ActiveSupport::JSON.decode validation_response.body
+
+          if validation_response.has_key?("userIsVerified") && validation_response['userIsVerified']
+            self.id = validation_response['userId']
           else
-            errors.add(:email, "Invalid username or password.")
+            if(validation_response.has_key?("Message"))
+              errors.add(:'error:', validation_response['Message'])
+            else
+              errors.add(:'error:', "Invalid username or password.")
+            end
           end
+        rescue
+          errors.add(:'error:', "Something went wrong, please try again.")
         end
       end
 
