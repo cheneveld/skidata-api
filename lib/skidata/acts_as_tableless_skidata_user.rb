@@ -22,12 +22,16 @@ module Skidata
           email = user_hash['EmailAddress']          
           name = user_hash['DisplayName']
           overall_position = user_hash['LeaderboardPosition']['OverallPosition'] rescue "-"
+          season_position = user_hash['LeaderboardPosition']['SeasonPosition'] rescue "-"
+          weekly_position = user_hash['LeaderboardPosition']['WeeklyPosition'] rescue "-"
           season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
           
           record = new(:id => id,
                        :email => email,
                        :name => name,
                        :leaderboard_overall_position => overall_position,
+                       :leaderboard_season_position => season_position,
+                       :leaderboard_weekly_position => weekly_position,
                        :season_points_earned => season_points)
 
           record.set_points validation_cookie

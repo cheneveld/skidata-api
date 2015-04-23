@@ -29,6 +29,9 @@ class SkidataUser < ActiveRecord::Base
 	column :name, :string
 
 	column :leaderboard_overall_position, :string
+	column :leaderboard_season_position, :string
+	column :leaderboard_weekly_position, :string
+	
 	column :season_points_earned, :string
 
 	column :points, :string # is really a hash
@@ -45,5 +48,7 @@ end
 - The skidata api was meant for 1-1 api/client interaction.  This gem was built using a different approach.  An admin authentication cookie can be used to make requests in behalf of users.  A client method named get_authorization_cookie will pull the authoriation cookie string which can be passed into various api methods.
 
 - An ENV variabled named SKIDATA_API_ENDPOINT must be set
+
+- https://faithful49.com/apidocs
 
 - The [instagram-ruby-gem](https://github.com/Instagram/instagram-ruby-gem) was inspriation for writing this.
