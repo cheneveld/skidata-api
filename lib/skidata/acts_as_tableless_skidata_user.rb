@@ -22,13 +22,19 @@ module Skidata
           email = user_hash['EmailAddress']          
           name = user_hash['DisplayName']
           overall_position = user_hash['LeaderboardPosition']['OverallPosition'] rescue "-"
+          season_position = user_hash['LeaderboardPosition']['SeasonPosition'] rescue "-"
+          weekly_position = user_hash['LeaderboardPosition']['WeeklyPosition'] rescue "-"
           season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
+          avatar = user_hash['Avatar'] rescue nil
           
           record = new(:id => id,
                        :email => email,
                        :name => name,
                        :leaderboard_overall_position => overall_position,
-                       :season_points_earned => season_points)
+                       :leaderboard_season_position => season_position,
+                       :leaderboard_weekly_position => weekly_position,
+                       :season_points_earned => season_points,
+                       :avatar => avatar)
 
           record.set_points validation_cookie
 
@@ -46,19 +52,24 @@ module Skidata
         return unless self.errors.empty?
 
         client = Skidata.client
-        login_type = client.get_login_type self.email
-        validation_response = client.validate self.email, login_type, self.password
 
-        validation_response = ActiveSupport::JSON.decode validation_response.body
+        begin 
+          login_type = client.get_login_type self.email
+          validation_response = client.validate self.email, login_type, self.password
 
-        if validation_response.has_key?("userIsVerified") && validation_response['userIsVerified']
-          self.id = validation_response['userId']
-        else
-          if(validation_response.has_key?("Message"))
-            errors.add(:email, validation_response['Message'])
+          validation_response = ActiveSupport::JSON.decode validation_response.body
+
+          if validation_response.has_key?("userIsVerified") && validation_response['userIsVerified']
+            self.id = validation_response['userId']
           else
-            errors.add(:email, "Invalid username or password.")
+            if(validation_response.has_key?("Message"))
+              errors.add(:'error:', validation_response['Message'])
+            else
+              errors.add(:'error:', "Invalid username or password.")
+            end
           end
+        rescue
+          errors.add(:'error:', "Something went wrong, please try again.")
         end
       end
 
