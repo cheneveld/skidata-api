@@ -25,7 +25,7 @@ module Skidata
           season_position = user_hash['LeaderboardPosition']['SeasonPosition'] rescue "-"
           weekly_position = user_hash['LeaderboardPosition']['WeeklyPosition'] rescue "-"
           season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
-          avatar = user_hash['Avatar'] rescue nil
+          avatar = ENV['SKIDATA_API_ENDPOINT'].freeze + user_hash['Avatar'] rescue nil
           
           record = new(:id => id,
                        :email => email,
