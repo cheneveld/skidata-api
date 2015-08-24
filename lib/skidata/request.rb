@@ -33,7 +33,7 @@ module Skidata
 
       #puts headers.inspect
 
-      request_path = endpoint + path
+      request_path = self.endpoint + path
 
       #puts request_path
       
