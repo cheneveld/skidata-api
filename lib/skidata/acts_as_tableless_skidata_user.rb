@@ -25,6 +25,7 @@ module Skidata
           season_position = user_hash['LeaderboardPosition']['SeasonPosition'] rescue "-"
           weekly_position = user_hash['LeaderboardPosition']['WeeklyPosition'] rescue "-"
           season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
+          avatar = user_hash['Avatar'] rescue nil
           
           record = new(:id => id,
                        :email => email,
@@ -32,7 +33,8 @@ module Skidata
                        :leaderboard_overall_position => overall_position,
                        :leaderboard_season_position => season_position,
                        :leaderboard_weekly_position => weekly_position,
-                       :season_points_earned => season_points)
+                       :season_points_earned => season_points,
+                       :avatar => avatar)
 
           record.set_points validation_cookie
 
