@@ -33,7 +33,7 @@ module Skidata
 
       #puts headers.inspect
 
-      request_path = self.endpoint + path
+      request_path = ENV['SKIDATA_API_ENDPOINT'].freeze + path
 
       #puts request_path
       
