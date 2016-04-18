@@ -19,21 +19,26 @@ module Skidata
           user_hash = ActiveSupport::JSON.decode api_user_response.body
 
           id = user_hash['UserID']
+          user_name = user_hash['Username']      
           email = user_hash['EmailAddress']          
           name = user_hash['DisplayName']
           overall_position = user_hash['LeaderboardPosition']['OverallPosition'] rescue "-"
           season_position = user_hash['LeaderboardPosition']['SeasonPosition'] rescue "-"
           weekly_position = user_hash['LeaderboardPosition']['WeeklyPosition'] rescue "-"
           season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
-          avatar = user_hash['Avatar'] rescue nil
+          points_remaining = user_hash['CurrentPoints']['PointsRemaining'] rescue "-"
+
+          avatar = ENV['SKIDATA_API_ENDPOINT'].freeze + user_hash['Avatar'] rescue nil
           
           record = new(:id => id,
                        :email => email,
+                       :user_name => user_name,
                        :name => name,
                        :leaderboard_overall_position => overall_position,
                        :leaderboard_season_position => season_position,
                        :leaderboard_weekly_position => weekly_position,
                        :season_points_earned => season_points,
+                       :points_remaining => points_remaining,
                        :avatar => avatar)
 
           record.set_points validation_cookie
@@ -57,13 +62,14 @@ module Skidata
           login_type = client.get_login_type self.email
           validation_response = client.validate self.email, login_type, self.password
 
-          validation_response = ActiveSupport::JSON.decode validation_response.body
+          parsed_validation_response = ActiveSupport::JSON.decode validation_response.body
 
-          if validation_response.has_key?("userIsVerified") && validation_response['userIsVerified']
-            self.id = validation_response['userId']
+          if parsed_validation_response.has_key?("userIsVerified") && parsed_validation_response['userIsVerified']
+            self.id = parsed_validation_response['userId']
+            self.set_cookies = client.get_set_cookies_from_response validation_response
           else
-            if(validation_response.has_key?("Message"))
-              errors.add(:'error:', validation_response['Message'])
+            if(parsed_validation_response.has_key?("Message"))
+              errors.add(:'error:', parsed_validation_response['Message'])
             else
               errors.add(:'error:', "Invalid username or password.")
             end
