@@ -35,14 +35,5 @@ module Skidata
             parsed_cookie_values[ENV['SKIDATA_API_AUTH_COOKIE_KEY'] || '.DOTNETNUKE']
         end
 
-        def get_verification_token_value_from_response response
-            set_cookie_value = get_set_cookies_from_response response
-
-            parsed_cookie_values = CGI::Cookie::parse(set_cookie_value)
-
-            parsed_cookie_values["__RequestVerificationToken"]
-        end
-
-        
     end
 end

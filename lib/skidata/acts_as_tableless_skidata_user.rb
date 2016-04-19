@@ -28,6 +28,8 @@ module Skidata
           season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
           points_remaining = user_hash['CurrentPoints']['PointsRemaining'] rescue "-"
 
+          cookies = client.get_set_cookies_from_response(api_user_response)
+
           avatar = ENV['SKIDATA_API_ENDPOINT'].freeze + user_hash['Avatar'] rescue nil
           
           record = new(:id => id,
@@ -39,7 +41,8 @@ module Skidata
                        :leaderboard_weekly_position => weekly_position,
                        :season_points_earned => season_points,
                        :points_remaining => points_remaining,
-                       :avatar => avatar)
+                       :avatar => avatar,
+                       :cookies => cookies)
 
           record.set_points validation_cookie
 
@@ -60,13 +63,14 @@ module Skidata
 
         begin 
           login_type = client.get_login_type self.email
+          
           validation_response = client.validate self.email, login_type, self.password
 
           parsed_validation_response = ActiveSupport::JSON.decode validation_response.body
 
           if parsed_validation_response.has_key?("userIsVerified") && parsed_validation_response['userIsVerified']
             self.id = parsed_validation_response['userId']
-            self.set_cookies = client.get_set_cookies_from_response validation_response
+            self.cookies = client.get_set_cookies_from_response(validation_response)
           else
             if(parsed_validation_response.has_key?("Message"))
               errors.add(:'error:', parsed_validation_response['Message'])
