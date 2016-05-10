@@ -7,6 +7,7 @@ require "skidata/version"
 Gem::Specification.new do |s|
   s.add_development_dependency('rake', '~> 0.9.2.2')
   s.add_runtime_dependency('httparty', ['>= 0.13.1', '< 0.14'])
+  # s.add_runtime_dependency('faraday')
 
   s.name        = "skidata"
   s.version     = Skidata::VERSION.dup
