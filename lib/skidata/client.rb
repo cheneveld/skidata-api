@@ -8,7 +8,9 @@ module Skidata
         include Skidata::Client::Points
         include Skidata::Client::PointActivities
 
-        def get_authorization_cookie admin_email, password
+        def get_authorization_cookie
+            admin_email = admin_email_for_auth_cookie
+            password = admin_password_for_auth_cookie
             login_type = get_login_type admin_email
             response = validate admin_email, login_type, password
 

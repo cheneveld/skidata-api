@@ -1,4 +1,4 @@
-require 'faraday'
+# require 'faraday'
 require File.expand_path('../version', __FILE__)
 
 module Skidata
@@ -10,6 +10,8 @@ module Skidata
       :format,
       :user_agent,
       :no_response_wrapper,
+      :admin_email_for_auth_cookie,
+      :admin_password_for_auth_cookie
     ].freeze
 
     DEFAULT_ENDPOINT = ENV['SKIDATA_API_ENDPOINT'].freeze 
