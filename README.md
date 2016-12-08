@@ -24,21 +24,30 @@ class SkidataUser < ActiveRecord::Base
 	has_no_table
 	column :id, :integer
 	column :email, :string
+	column :user_name, :string
 	column :password, :string
 
 	column :name, :string
 
-	column :leaderboard_overall_position, :string
+	column :season_points_earned, :string
+	column :points_remaining, :string
+
 	column :leaderboard_season_position, :string
 	column :leaderboard_weekly_position, :string
-	
-	column :season_points_earned, :string
+	column :leaderboard_overall_position, :string
 
 	column :points, :string # is really a hash
 
+	column :avatar, :string
 	
+	column :cookies, :string
+
+	column :roles, :array
+
 	validates_presence_of :email, :password
+
 	validate :authenticate_user
+
 	acts_as_tableless_skidata_user
 end
 ```

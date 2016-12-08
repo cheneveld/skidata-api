@@ -27,6 +27,7 @@ module Skidata
           weekly_position = user_hash['LeaderboardPosition']['WeeklyPosition'] rescue "-"
           season_points = user_hash['CurrentPoints']['SeasonPointsEarned'] rescue "-"
           points_remaining = user_hash['CurrentPoints']['PointsRemaining'] rescue "-"
+          roles = user_hash['Roles'].map{|r| r["Name"]}
 
           cookies = client.get_set_cookies_from_response(api_user_response)
 
@@ -41,6 +42,7 @@ module Skidata
                        :leaderboard_weekly_position => weekly_position,
                        :season_points_earned => season_points,
                        :points_remaining => points_remaining,
+                       :roles => roles,
                        :avatar => avatar,
                        :cookies => cookies)
 
